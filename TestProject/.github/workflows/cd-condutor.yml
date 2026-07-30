@@ -1,0 +1,33 @@
+name: CD - With Fastlane
+
+env:
+    GITHUB_TOKEN: ${{secrets.PAT_GITHUB}}
+    COCOA_POD_TOKEN: ${{secrets.COCOAPODS_TRUNK_TOKEN}}
+    GITHUB_BUILD_NUMBER: ${{ github.run_number }}
+    GITHUB_BUILD_BRANCH: ${{ github.ref_name }}
+
+permissions:
+  contents: write
+  actions: read
+  checks: write
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+    - closed
+    branches:
+    - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_name != 'development' }}
+
+jobs:
+  build-iOS: 
+     name: "CD Jobs"
+     uses: awasthi027/shared-workflow/.github/workflows/cd-pr.yml@main
+     with: 
+       config_path: './.github/cd-configuration/cd.json'
+     secrets: inherit
+  

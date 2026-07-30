@@ -1,0 +1,52 @@
+//
+//  ContentView.swift
+//  TestProject
+//
+//  Created by Ashish Awasthi on 17/07/26.
+//
+
+import SwiftUI
+
+struct HomeView: View {
+
+  @StateObject var homeViewModel: HomeViewModel
+
+    var body: some View {
+        VStack {
+            List(self.homeViewModel.list, id:\.id) { item in
+                NavigationLink(value: item) {
+                    HStack {
+                        Text("\(item.id)")
+                        Divider()
+                        Text("\(item.title)")
+                        Divider()
+                        Text("\(item.status.rawValue)")
+                    }
+                }
+                .accessibilityIdentifier("\(item.id)")
+
+            }
+            .accessibilityIdentifier("homeViewList")
+            .listStyle(.plain)
+        }
+        .navigationDestination(for: ToDo.self) { item in
+            DetailsView(toDo: item)
+        }
+        .navigationTitle("Home")
+        .onAppear() {
+            Task {
+                do {
+                    try homeViewModel.makeRequestToGetNetworkData()
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+   // HomeView(homeViewModel: HomeViewModel())
+}
+
+

@@ -1,0 +1,24 @@
+{
+    "platform": "ios",
+    "common": [
+        {
+            "runs-on": ["macos-latest"],
+            "checkout": {
+                "path": "./"
+            }
+        }
+    ],
+
+    "publish": [
+        {
+            "name": "Publishing PodSpec",
+            "type": "fastlane",
+            "fastlane": {
+                "lane": "publishNewPodSpec",
+                "working_repo": "./",
+                "fastlane_repo": "awasthi027/iosBuildScripts"
+            }
+        }
+    ]
+}
+
