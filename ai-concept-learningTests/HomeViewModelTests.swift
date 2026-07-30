@@ -7,7 +7,7 @@
 
 
 import Testing
-@testable import TestProject
+@testable import ai_concept_learning
 import Foundation
 
 struct HomeViewModelTests {

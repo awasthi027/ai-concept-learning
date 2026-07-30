@@ -7,7 +7,7 @@
 
 import Testing
 import SwiftUI
-@testable import TestProject
+@testable import ai_concept_learning
 
 @MainActor
 struct HomeViewSnapshotTests {

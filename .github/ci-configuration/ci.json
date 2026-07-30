@@ -2,7 +2,7 @@
     "platform": "ios",
     "common": [
         {
-            "runs-on": ["macos-latest"],
+            "runs-on": ["macos-26"],
             "checkout": {
                 "path": "./"
             }
@@ -13,9 +13,10 @@
         {
             "name": "Build Source Code",
             "type": "fastlane",
+            "prescript": ".github/scripts/runnerinfo.sh",
             "fastlane": {
                 "lane": "buildiOSSource",
-                "working_repo": "./TestProject",
+                "working_repo": "./",
                 "fastlane_repo": "awasthi027/iosBuildScripts"
             }
         }
@@ -23,20 +24,31 @@
 
     "test": [
         {
-            "name": "Test Source Code",
+            "name": "Run Unit Tests",
             "type": "fastlane",
             "fastlane": {
                 "lane": "testiOSSource",
-                "working_repo": "./TestProject",
+                "working_repo": "./",
+                "fastlane_repo": "awasthi027/iosBuildScripts"
+            }
+        },
+        {
+            "name": "Run UI Tests",
+            "type": "fastlane",
+            "fastlane": {
+                "lane": "testiOSSource",
+                "env": "envUItest",
+                "working_repo": "./",
                 "fastlane_repo": "awasthi027/iosBuildScripts"
             }
         },
         {
             "name": "Pod Lib Lint",
             "type": "fastlane",
+            "disabled": true,
             "fastlane": {
                 "lane": "podLibLint",
-                "working_repo": "./TestProject",
+                "working_repo": "./",
                 "fastlane_repo": "awasthi027/iosBuildScripts"
             }
         }

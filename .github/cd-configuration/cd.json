@@ -2,7 +2,7 @@
     "platform": "ios",
     "common": [
         {
-            "runs-on": ["macos-latest"],
+            "runs-on": ["macos-26"],
             "checkout": {
                 "path": "./"
             }

@@ -1,6 +1,6 @@
-WORKSPACE_NAME="TestProject.xcodeproj"
-PROJECT_NAME="TestProject"
-WORKSPACE_SCHEME="TestProjectTests"
+WORKSPACE_NAME="ai-concept-learning.xcodeproj"
+PROJECT_NAME="ai-concept-learning"
+WORKSPACE_SCHEME="ai-concept-learningUITests"
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 SIMULATOR_RUNTIME=26.5
 SIMULATOR_DEVICE_TYPE=iPhone 17

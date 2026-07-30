@@ -7,62 +7,62 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		9595AC833009EF74004F5C04 /* PBXContainerItemProxy */ = {
+		9541EA5A301B48E100B9896E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9595AC6D3009EF72004F5C04 /* Project object */;
+			containerPortal = 9541EA44301B48DF00B9896E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9595AC743009EF72004F5C04;
-			remoteInfo = TestProject;
+			remoteGlobalIDString = 9541EA4B301B48DF00B9896E;
+			remoteInfo = "ai-concept-learning";
 		};
-		9595AC8D3009EF74004F5C04 /* PBXContainerItemProxy */ = {
+		9541EA64301B48E100B9896E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9595AC6D3009EF72004F5C04 /* Project object */;
+			containerPortal = 9541EA44301B48DF00B9896E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9595AC743009EF72004F5C04;
-			remoteInfo = TestProject;
+			remoteGlobalIDString = 9541EA4B301B48DF00B9896E;
+			remoteInfo = "ai-concept-learning";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9595AC753009EF72004F5C04 /* TestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9595AC823009EF74004F5C04 /* TestProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9595AC8C3009EF74004F5C04 /* TestProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9541EA4C301B48DF00B9896E /* ai-concept-learning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ai-concept-learning.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9541EA59301B48E100B9896E /* ai-concept-learningTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ai-concept-learningTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9541EA63301B48E100B9896E /* ai-concept-learningUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ai-concept-learningUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9595AC773009EF72004F5C04 /* TestProject */ = {
+		9541EA4E301B48DF00B9896E /* ai-concept-learning */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TestProject;
+			path = "ai-concept-learning";
 			sourceTree = "<group>";
 		};
-		9595AC853009EF74004F5C04 /* TestProjectTests */ = {
+		9541EA5C301B48E100B9896E /* ai-concept-learningTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TestProjectTests;
+			path = "ai-concept-learningTests";
 			sourceTree = "<group>";
 		};
-		9595AC8F3009EF74004F5C04 /* TestProjectUITests */ = {
+		9541EA66301B48E100B9896E /* ai-concept-learningUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TestProjectUITests;
+			path = "ai-concept-learningUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9595AC723009EF72004F5C04 /* Frameworks */ = {
+		9541EA49301B48DF00B9896E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC7F3009EF74004F5C04 /* Frameworks */ = {
+		9541EA56301B48E100B9896E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC893009EF74004F5C04 /* Frameworks */ = {
+		9541EA60301B48E100B9896E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -72,22 +72,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9595AC6C3009EF72004F5C04 = {
+		9541EA43301B48DF00B9896E = {
 			isa = PBXGroup;
 			children = (
-				9595AC773009EF72004F5C04 /* TestProject */,
-				9595AC853009EF74004F5C04 /* TestProjectTests */,
-				9595AC8F3009EF74004F5C04 /* TestProjectUITests */,
-				9595AC763009EF72004F5C04 /* Products */,
+				9541EA4E301B48DF00B9896E /* ai-concept-learning */,
+				9541EA5C301B48E100B9896E /* ai-concept-learningTests */,
+				9541EA66301B48E100B9896E /* ai-concept-learningUITests */,
+				9541EA4D301B48DF00B9896E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		9595AC763009EF72004F5C04 /* Products */ = {
+		9541EA4D301B48DF00B9896E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9595AC753009EF72004F5C04 /* TestProject.app */,
-				9595AC823009EF74004F5C04 /* TestProjectTests.xctest */,
-				9595AC8C3009EF74004F5C04 /* TestProjectUITests.xctest */,
+				9541EA4C301B48DF00B9896E /* ai-concept-learning.app */,
+				9541EA59301B48E100B9896E /* ai-concept-learningTests.xctest */,
+				9541EA63301B48E100B9896E /* ai-concept-learningUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,134 +95,134 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9595AC743009EF72004F5C04 /* TestProject */ = {
+		9541EA4B301B48DF00B9896E /* ai-concept-learning */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9595AC963009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProject" */;
+			buildConfigurationList = 9541EA6D301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learning" */;
 			buildPhases = (
-				9595AC713009EF72004F5C04 /* Sources */,
-				9595AC723009EF72004F5C04 /* Frameworks */,
-				9595AC733009EF72004F5C04 /* Resources */,
+				9541EA48301B48DF00B9896E /* Sources */,
+				9541EA49301B48DF00B9896E /* Frameworks */,
+				9541EA4A301B48DF00B9896E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9595AC773009EF72004F5C04 /* TestProject */,
+				9541EA4E301B48DF00B9896E /* ai-concept-learning */,
 			);
-			name = TestProject;
+			name = "ai-concept-learning";
 			packageProductDependencies = (
 			);
-			productName = TestProject;
-			productReference = 9595AC753009EF72004F5C04 /* TestProject.app */;
+			productName = "ai-concept-learning";
+			productReference = 9541EA4C301B48DF00B9896E /* ai-concept-learning.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9595AC813009EF74004F5C04 /* TestProjectTests */ = {
+		9541EA58301B48E100B9896E /* ai-concept-learningTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9595AC993009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProjectTests" */;
+			buildConfigurationList = 9541EA70301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learningTests" */;
 			buildPhases = (
-				9595AC7E3009EF74004F5C04 /* Sources */,
-				9595AC7F3009EF74004F5C04 /* Frameworks */,
-				9595AC803009EF74004F5C04 /* Resources */,
+				9541EA55301B48E100B9896E /* Sources */,
+				9541EA56301B48E100B9896E /* Frameworks */,
+				9541EA57301B48E100B9896E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9595AC843009EF74004F5C04 /* PBXTargetDependency */,
+				9541EA5B301B48E100B9896E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				9595AC853009EF74004F5C04 /* TestProjectTests */,
+				9541EA5C301B48E100B9896E /* ai-concept-learningTests */,
 			);
-			name = TestProjectTests;
+			name = "ai-concept-learningTests";
 			packageProductDependencies = (
 			);
-			productName = TestProjectTests;
-			productReference = 9595AC823009EF74004F5C04 /* TestProjectTests.xctest */;
+			productName = "ai-concept-learningTests";
+			productReference = 9541EA59301B48E100B9896E /* ai-concept-learningTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9595AC8B3009EF74004F5C04 /* TestProjectUITests */ = {
+		9541EA62301B48E100B9896E /* ai-concept-learningUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9595AC9C3009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProjectUITests" */;
+			buildConfigurationList = 9541EA73301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learningUITests" */;
 			buildPhases = (
-				9595AC883009EF74004F5C04 /* Sources */,
-				9595AC893009EF74004F5C04 /* Frameworks */,
-				9595AC8A3009EF74004F5C04 /* Resources */,
+				9541EA5F301B48E100B9896E /* Sources */,
+				9541EA60301B48E100B9896E /* Frameworks */,
+				9541EA61301B48E100B9896E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9595AC8E3009EF74004F5C04 /* PBXTargetDependency */,
+				9541EA65301B48E100B9896E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				9595AC8F3009EF74004F5C04 /* TestProjectUITests */,
+				9541EA66301B48E100B9896E /* ai-concept-learningUITests */,
 			);
-			name = TestProjectUITests;
+			name = "ai-concept-learningUITests";
 			packageProductDependencies = (
 			);
-			productName = TestProjectUITests;
-			productReference = 9595AC8C3009EF74004F5C04 /* TestProjectUITests.xctest */;
+			productName = "ai-concept-learningUITests";
+			productReference = 9541EA63301B48E100B9896E /* ai-concept-learningUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		9595AC6D3009EF72004F5C04 /* Project object */ = {
+		9541EA44301B48DF00B9896E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
-					9595AC743009EF72004F5C04 = {
+					9541EA4B301B48DF00B9896E = {
 						CreatedOnToolsVersion = 26.5;
 					};
-					9595AC813009EF74004F5C04 = {
+					9541EA58301B48E100B9896E = {
 						CreatedOnToolsVersion = 26.5;
-						TestTargetID = 9595AC743009EF72004F5C04;
+						TestTargetID = 9541EA4B301B48DF00B9896E;
 					};
-					9595AC8B3009EF74004F5C04 = {
+					9541EA62301B48E100B9896E = {
 						CreatedOnToolsVersion = 26.5;
-						TestTargetID = 9595AC743009EF72004F5C04;
+						TestTargetID = 9541EA4B301B48DF00B9896E;
 					};
 				};
 			};
-			buildConfigurationList = 9595AC703009EF72004F5C04 /* Build configuration list for PBXProject "TestProject" */;
+			buildConfigurationList = 9541EA47301B48DF00B9896E /* Build configuration list for PBXProject "ai-concept-learning" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 9595AC6C3009EF72004F5C04;
+			mainGroup = 9541EA43301B48DF00B9896E;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 9595AC763009EF72004F5C04 /* Products */;
+			productRefGroup = 9541EA4D301B48DF00B9896E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9595AC743009EF72004F5C04 /* TestProject */,
-				9595AC813009EF74004F5C04 /* TestProjectTests */,
-				9595AC8B3009EF74004F5C04 /* TestProjectUITests */,
+				9541EA4B301B48DF00B9896E /* ai-concept-learning */,
+				9541EA58301B48E100B9896E /* ai-concept-learningTests */,
+				9541EA62301B48E100B9896E /* ai-concept-learningUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		9595AC733009EF72004F5C04 /* Resources */ = {
+		9541EA4A301B48DF00B9896E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC803009EF74004F5C04 /* Resources */ = {
+		9541EA57301B48E100B9896E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC8A3009EF74004F5C04 /* Resources */ = {
+		9541EA61301B48E100B9896E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -232,21 +232,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9595AC713009EF72004F5C04 /* Sources */ = {
+		9541EA48301B48DF00B9896E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC7E3009EF74004F5C04 /* Sources */ = {
+		9541EA55301B48E100B9896E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9595AC883009EF74004F5C04 /* Sources */ = {
+		9541EA5F301B48E100B9896E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,20 +256,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9595AC843009EF74004F5C04 /* PBXTargetDependency */ = {
+		9541EA5B301B48E100B9896E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9595AC743009EF72004F5C04 /* TestProject */;
-			targetProxy = 9595AC833009EF74004F5C04 /* PBXContainerItemProxy */;
+			target = 9541EA4B301B48DF00B9896E /* ai-concept-learning */;
+			targetProxy = 9541EA5A301B48E100B9896E /* PBXContainerItemProxy */;
 		};
-		9595AC8E3009EF74004F5C04 /* PBXTargetDependency */ = {
+		9541EA65301B48E100B9896E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9595AC743009EF72004F5C04 /* TestProject */;
-			targetProxy = 9595AC8D3009EF74004F5C04 /* PBXContainerItemProxy */;
+			target = 9541EA4B301B48DF00B9896E /* ai-concept-learning */;
+			targetProxy = 9541EA64301B48E100B9896E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		9595AC943009EF74004F5C04 /* Debug */ = {
+		9541EA6B301B48E100B9896E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -304,7 +304,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -333,7 +332,7 @@
 			};
 			name = Debug;
 		};
-		9595AC953009EF74004F5C04 /* Release */ = {
+		9541EA6C301B48E100B9896E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -368,7 +367,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -390,14 +388,13 @@
 			};
 			name = Release;
 		};
-		9595AC973009EF74004F5C04 /* Debug */ = {
+		9541EA6E301B48E100B9896E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -405,15 +402,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProject;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -423,14 +421,13 @@
 			};
 			name = Debug;
 		};
-		9595AC983009EF74004F5C04 /* Release */ = {
+		9541EA6F301B48E100B9896E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -438,15 +435,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProject;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -456,17 +454,16 @@
 			};
 			name = Release;
 		};
-		9595AC9A3009EF74004F5C04 /* Debug */ = {
+		9541EA71301B48E100B9896E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learningTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -474,21 +471,20 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestProject.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestProject";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ai-concept-learning.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ai-concept-learning";
 			};
 			name = Debug;
 		};
-		9595AC9B3009EF74004F5C04 /* Release */ = {
+		9541EA72301B48E100B9896E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learningTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -496,20 +492,19 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestProject.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestProject";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ai-concept-learning.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ai-concept-learning";
 			};
 			name = Release;
 		};
-		9595AC9D3009EF74004F5C04 /* Debug */ = {
+		9541EA74301B48E100B9896E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learningUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -517,20 +512,19 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TestProject;
+				TEST_TARGET_NAME = "ai-concept-learning";
 			};
 			name = Debug;
 		};
-		9595AC9E3009EF74004F5C04 /* Release */ = {
+		9541EA75301B48E100B9896E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S2ZMFGQM93;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ashi.com.newLearning.TestProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "ashi.com.newLearning.ai-concept-learningUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -538,50 +532,50 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TestProject;
+				TEST_TARGET_NAME = "ai-concept-learning";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9595AC703009EF72004F5C04 /* Build configuration list for PBXProject "TestProject" */ = {
+		9541EA47301B48DF00B9896E /* Build configuration list for PBXProject "ai-concept-learning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9595AC943009EF74004F5C04 /* Debug */,
-				9595AC953009EF74004F5C04 /* Release */,
+				9541EA6B301B48E100B9896E /* Debug */,
+				9541EA6C301B48E100B9896E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9595AC963009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProject" */ = {
+		9541EA6D301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9595AC973009EF74004F5C04 /* Debug */,
-				9595AC983009EF74004F5C04 /* Release */,
+				9541EA6E301B48E100B9896E /* Debug */,
+				9541EA6F301B48E100B9896E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9595AC993009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProjectTests" */ = {
+		9541EA70301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learningTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9595AC9A3009EF74004F5C04 /* Debug */,
-				9595AC9B3009EF74004F5C04 /* Release */,
+				9541EA71301B48E100B9896E /* Debug */,
+				9541EA72301B48E100B9896E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9595AC9C3009EF74004F5C04 /* Build configuration list for PBXNativeTarget "TestProjectUITests" */ = {
+		9541EA73301B48E100B9896E /* Build configuration list for PBXNativeTarget "ai-concept-learningUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9595AC9D3009EF74004F5C04 /* Debug */,
-				9595AC9E3009EF74004F5C04 /* Release */,
+				9541EA74301B48E100B9896E /* Debug */,
+				9541EA75301B48E100B9896E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 9595AC6D3009EF72004F5C04 /* Project object */;
+	rootObject = 9541EA44301B48DF00B9896E /* Project object */;
 }
