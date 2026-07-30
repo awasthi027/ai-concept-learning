@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+#
+# pre-push hook — runs the Claude `swift-code-reviewer` agent against the Swift
+# files being pushed and blocks the push if the review verdict is FAIL.
+#
+# Enable once per clone (already version-controlled under .githooks/):
+#     git config core.hooksPath .githooks
+#
+# Escape hatches:
+#     git push --no-verify        # skip all pre-push hooks
+#     SKIP_CLAUDE_REVIEW=1 git push
+#
+set -euo pipefail
+
+ZERO="0000000000000000000000000000000000000000"
+
+if [ "${SKIP_CLAUDE_REVIEW:-}" = "1" ]; then
+    echo "pre-push: SKIP_CLAUDE_REVIEW=1 set — skipping Claude review."
+    exit 0
+fi
+
+# If the Claude CLI isn't installed, don't block the developer — just warn.
+if ! command -v claude >/dev/null 2>&1; then
+    echo "pre-push: 'claude' CLI not found — skipping Swift code review." >&2
+    echo "          Install Claude Code to enable automated review on push." >&2
+    exit 0
+fi
+
+# Collect changed *.swift files across every ref being pushed (stdin format:
+# <local_ref> <local_sha> <remote_ref> <remote_sha>).
+changed_files=""
+while read -r local_ref local_sha remote_ref remote_sha; do
+    [ "$local_sha" = "$ZERO" ] && continue          # branch deletion, nothing to review
+
+    if [ "$remote_sha" = "$ZERO" ]; then            # new branch on remote
+        base="$(git merge-base "$local_sha" origin/main 2>/dev/null \
+                || git rev-list --max-parents=0 "$local_sha" | tail -1)"
+    else
+        base="$remote_sha"
+    fi
+
+    files="$(git diff --name-only "$base" "$local_sha" -- '*.swift' 2>/dev/null || true)"
+    changed_files="$(printf '%s\n%s' "$changed_files" "$files")"
+done
+
+# De-duplicate and drop blank lines / deleted files.
+changed_files="$(printf '%s\n' "$changed_files" | sort -u | grep -E '\.swift$' || true)"
+existing=""
+while IFS= read -r f; do
+    [ -n "$f" ] && [ -f "$f" ] && existing="$(printf '%s\n%s' "$existing" "$f")"
+done <<< "$changed_files"
+changed_files="$(printf '%s\n' "$existing" | grep -E '\.swift$' || true)"
+
+if [ -z "$changed_files" ]; then
+    echo "pre-push: no Swift changes to review — allowing push."
+    exit 0
+fi
+
+echo "pre-push: reviewing Swift changes with the swift-code-reviewer agent..."
+echo "$changed_files" | sed 's/^/  • /'
+
+file_list="$(printf '%s' "$changed_files" | paste -sd ',' -)"
+
+prompt="Use the swift-code-review skill to review these changed Swift files \
+against the repo coding standards, then emit the verdict token: ${file_list}"
+
+# Run headless, read-only. Reads/greps/git are all this review needs.
+output="$(claude -p "$prompt" \
+    --agents swift-code-reviewer \
+    --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git grep:*),Bash(grep:*)" \
+    --output-format text 2>&1)" || {
+        echo "pre-push: Claude review could not run:" >&2
+        echo "$output" >&2
+        echo "pre-push: allowing push (review inconclusive). Use --no-verify to silence." >&2
+        exit 0
+    }
+
+echo "----------------------------------------------------------------------"
+echo "$output"
+echo "----------------------------------------------------------------------"
+
+verdict="$(printf '%s\n' "$output" | grep -Eo 'CLAUDE_REVIEW_VERDICT: (PASS|FAIL)' | tail -1)"
+
+case "$verdict" in
+    *PASS)
+        echo "pre-push: ✅ review passed — pushing."
+        exit 0
+        ;;
+    *FAIL)
+        echo "pre-push: ❌ review found blocking violations — push blocked." >&2
+        echo "          Fix the issues above, or bypass with: git push --no-verify" >&2
+        exit 1
+        ;;
+    *)
+        echo "pre-push: ⚠️  no clear verdict from review — allowing push." >&2
+        exit 0
+        ;;
+esac

@@ -25,7 +25,7 @@ final class HomeViewUITests: XCTestCase {
 
     @MainActor
     func testListingAndNavigationflow() throws {
-        let app = TestApplication(applicationInfo: TestApplicationInfo(bundleIdentifier: "ashi.com.newLearning.TestProject"))
+        let app = TestApplication(applicationInfo: TestApplicationInfo(bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"))
         app.launch()
         XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 1.0))
 

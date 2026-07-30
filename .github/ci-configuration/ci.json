@@ -26,6 +26,7 @@
         {
             "name": "Run Unit Tests",
             "type": "fastlane",
+            "disabled": false,
             "fastlane": {
                 "lane": "testiOSSource",
                 "working_repo": "./",
@@ -37,7 +38,7 @@
             "type": "fastlane",
             "fastlane": {
                 "lane": "testiOSSource",
-                "env": "envUItest",
+                "env": ".env.UITest",
                 "working_repo": "./",
                 "fastlane_repo": "awasthi027/iosBuildScripts"
             }

@@ -66,7 +66,7 @@ enum SnapshotValidator {
         if difference > tolerance {
             let failureURL = referenceURL
                 .deletingLastPathComponent()
-                .appendingPathComponent("\(name)_\(deviceName())_FAILED.png")
+                .appendingPathComponent("\(name)_FAILED.png")
             _ = try? write(actualImage, to: failureURL)
             throw SnapshotError.mismatch(difference: difference, tolerance: tolerance, actual: failureURL)
         }
@@ -76,11 +76,18 @@ enum SnapshotValidator {
 
     @MainActor
     static func render(_ view: some View, size: CGSize) -> UIImage {
-        let controller = UIHostingController(rootView: view)
+        // Pin Dynamic Type so row heights are deterministic regardless of the
+        // host/simulator's preferred content size category (a mismatch here shifts
+        // every List row and causes false snapshot failures).
+        let pinnedView = view
+            .environment(\.dynamicTypeSize, .large)
+        let controller = UIHostingController(rootView: pinnedView)
+        controller.overrideUserInterfaceStyle = .light
 
         let bounds = CGRect(origin: .zero, size: size)
         let window = makeWindow()
         window.frame = bounds
+        window.overrideUserInterfaceStyle = .light
 
         controller.view.frame = bounds
         controller.view.backgroundColor = .systemBackground

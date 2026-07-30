@@ -9,7 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
 
-  @StateObject var homeViewModel: HomeViewModel
+    let rowHeight: CGFloat = 40
+    let nameURL: URL = "https://jsonplaceholder.typicode.com/todos"
+    @StateObject var homeViewModel: HomeViewModel
 
     var body: some View {
         VStack {
@@ -22,12 +24,13 @@ struct HomeView: View {
                         Divider()
                         Text("\(item.status.rawValue)")
                     }
+                    .frame(height: rowHeight)
                 }
                 .accessibilityIdentifier("\(item.id)")
-
             }
             .accessibilityIdentifier("homeViewList")
             .listStyle(.plain)
+            .environment(\.defaultMinListRowHeight, rowHeight)
         }
         .navigationDestination(for: ToDo.self) { item in
             DetailsView(toDo: item)
