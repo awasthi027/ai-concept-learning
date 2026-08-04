@@ -1,36 +1,17 @@
 //
-//  HomeViewModelTests.swift
-//  TestProject
+//  ToDoService.swift
+//  ai-concept-learning
 //
-//  Created by Ashish Awasthi on 30/07/26.
+//  Created by Ashish Awasthi on 17/07/26.
 //
 
-
-import Testing
-@testable import ai_concept_learning
 import Foundation
 
-struct HomeViewModelTests {
-
-    @Test("Test to Get JSON and validate values")
-    @MainActor
-    func validateValues() async throws {
-        let viewModel = HomeViewModel(toDoService: TestDatalayer())
-        await withCheckedContinuation { continuation in
-            do {
-                try viewModel.makeRequestToGetNetworkData()
-                continuation.resume()
-            } catch {
-                print(error)
-                continuation.resume()
-            }
-        }
-        #expect(viewModel.list.count == 5)
-
-    }
+protocol ToDoServiceProtocol {
+    func getToDo() throws -> [ToDo]
 }
 
-class TestDatalayer: ToDoServiceProtocol {
+final class LocalToDoDataSource: ToDoServiceProtocol {
 
     private enum DataSourceError: Error {
         case invalidEncoding

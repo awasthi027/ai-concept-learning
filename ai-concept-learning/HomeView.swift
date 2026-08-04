@@ -49,7 +49,7 @@ struct HomeView: View {
 
 
 #Preview {
-    HomeView(homeViewModel: HomeViewModel(toDoServiceProtocol: DatalayerClass()))
+    HomeView(homeViewModel: HomeViewModel(toDoService: LocalToDoDataSource()))
 }
 
 

@@ -12,7 +12,7 @@ struct ai_concept_learningApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                HomeView(homeViewModel: HomeViewModel(toDoServiceProtocol: DatalayerClass()))
+                HomeView(homeViewModel: HomeViewModel(toDoService: LocalToDoDataSource()))
             }
         }
     }
