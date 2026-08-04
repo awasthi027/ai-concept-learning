@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
 
 struct HomeView: View {
 
@@ -14,25 +13,45 @@ struct HomeView: View {
 
     @StateObject var homeViewModel: HomeViewModel
 
+    private var isShowingError: Binding<Bool> {
+        Binding(
+            get: { homeViewModel.errorMessage != nil },
+            set: { if !$0 { homeViewModel.errorMessage = nil } }
+        )
+    }
+
     var body: some View {
-        VStack {
-            List(homeViewModel.list, id: \.id) { item in
-                NavigationLink(value: item) {
-                    ToDoRowView(toDo: item, rowHeight: rowHeight)
-                }
-                .accessibilityIdentifier("\(item.id)")
+        ToDoListView(toDos: homeViewModel.list, rowHeight: rowHeight)
+            .navigationDestination(for: ToDo.self) { item in
+                DetailsView(toDo: item)
             }
-            .accessibilityIdentifier("homeViewList")
-            .listStyle(.plain)
-            .environment(\.defaultMinListRowHeight, rowHeight)
+            .navigationTitle("Home")
+            .task {
+                await homeViewModel.loadData()
+            }
+            .alert("Unable to load to-dos", isPresented: isShowingError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(homeViewModel.errorMessage ?? "")
+            }
+    }
+}
+
+struct ToDoListView: View {
+
+    let toDos: [ToDo]
+    let rowHeight: CGFloat
+
+    var body: some View {
+        List(toDos, id: \.id) { item in
+            NavigationLink(value: item) {
+                ToDoRowView(toDo: item, rowHeight: rowHeight)
+            }
+            .accessibilityIdentifier("\(item.id)")
         }
-        .navigationDestination(for: ToDo.self) { item in
-            DetailsView(toDo: item)
-        }
-        .navigationTitle("Home")
-        .task {
-            await homeViewModel.loadData()
-        }
+        .accessibilityIdentifier("homeViewList")
+        .listStyle(.plain)
+        .environment(\.defaultMinListRowHeight, rowHeight)
     }
 }
 
