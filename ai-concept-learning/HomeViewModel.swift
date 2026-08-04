@@ -18,7 +18,8 @@ class HomeViewModel: ObservableObject {
         self.toDoService = toDoService
     }
 
-    func makeRequestToGetNetworkData() throws {
+    @MainActor
+    func loadToDoSync() throws {
         list = try toDoService.getToDo()
     }
 

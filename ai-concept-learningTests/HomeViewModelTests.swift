@@ -18,7 +18,7 @@ struct HomeViewModelTests {
         let viewModel = HomeViewModel(toDoService: TestDatalayer())
         await withCheckedContinuation { continuation in
             do {
-                try viewModel.makeRequestToGetNetworkData()
+                try viewModel.loadToDoSync()
                 continuation.resume()
             } catch {
                 print(error)
