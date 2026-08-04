@@ -16,6 +16,11 @@ Review only the files you are given (the pre-push hook passes the changed
 `*.swift` files). If none are specified, review the files changed on the current
 branch (`git diff --name-only main... -- '*.swift'`).
 
+**Exclude test code.** Do not review or flag files under any `*Tests/` or
+`*UITests/` directory (unit tests, UI tests, snapshot tests, test fixtures /
+helpers). These are out of scope — skip them entirely even if they appear in the
+diff.
+
 ## Procedure
 
 For each file, read it fully, then check every rule below. Report a violation

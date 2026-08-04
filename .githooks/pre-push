@@ -65,8 +65,12 @@ while IFS= read -r f; do
 done <<< "$changed_files"
 changed_files="$(printf '%s\n' "$existing" | grep -E '\.swift$' || true)"
 
+# Exclude test / UI-test sources — the review only covers production Swift code.
+changed_files="$(printf '%s\n' "$changed_files" \
+    | grep -vE '(^|/)[^/]*(Tests|UITests)/' || true)"
+
 if [ -z "$changed_files" ]; then
-    echo "pre-push: no Swift changes to review — allowing push."
+    echo "pre-push: no production Swift changes to review — allowing push."
     exit 0
 fi
 
