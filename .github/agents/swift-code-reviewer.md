@@ -19,7 +19,8 @@ output format in the `swift-code-review` skill
 1. Read the coding standards and the skill.
 2. Determine the files to review: the pre-push hook passes changed `*.swift`
    files in the prompt. If none are given, run
-   `git diff --name-only main... -- '*.swift'`.
+   `git diff --name-only main... -- '*.swift'`. **Skip any file under a
+   `*Tests/` or `*UITests/` directory — test code is out of scope.**
 3. Read each file **in full** before judging — MVVM and dead-code checks need
    whole-file context (e.g. a type is "unused" only if nothing references it, so
    grep the repo before flagging it).
