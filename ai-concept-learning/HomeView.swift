@@ -1,6 +1,6 @@
 //
-//  ContentView.swift
-//  TestProject
+//  HomeView.swift
+//  ai-concept-learning
 //
 //  Created by Ashish Awasthi on 17/07/26.
 //
@@ -16,20 +16,9 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            if let errorMessage = homeViewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            }
-            List(self.homeViewModel.list, id:\.id) { item in
+            List(homeViewModel.list, id: \.id) { item in
                 NavigationLink(value: item) {
-                    HStack {
-                        Text("\(item.id)")
-                        Divider()
-                        Text("\(item.title)")
-                        Divider()
-                        Text("\(item.status.rawValue)")
-                    }
-                    .frame(height: rowHeight)
+                    ToDoRowView(toDo: item, rowHeight: rowHeight)
                 }
                 .accessibilityIdentifier("\(item.id)")
             }
@@ -47,9 +36,23 @@ struct HomeView: View {
     }
 }
 
+struct ToDoRowView: View {
+
+    let toDo: ToDo
+    let rowHeight: CGFloat
+
+    var body: some View {
+        HStack {
+            Text("\(toDo.id)")
+            Divider()
+            Text(toDo.title)
+            Divider()
+            Text(toDo.status.rawValue)
+        }
+        .frame(height: rowHeight)
+    }
+}
 
 #Preview {
     HomeView(homeViewModel: HomeViewModel(toDoService: LocalToDoDataSource()))
 }
-
-

@@ -15,7 +15,7 @@ struct HomeViewSnapshotTests {
     @Test("TestToValidateHomeScreenUIChanges")
     func validateHomeScreen() async throws {
         let viewModel = HomeViewModel(toDoService: SnapshotDatalayer())
-        try viewModel.makeRequestToGetNetworkData()
+        try viewModel.loadToDoSync()
 
         let screen = NavigationStack {
             HomeView(homeViewModel: viewModel)
