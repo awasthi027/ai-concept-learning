@@ -10,8 +10,9 @@ import Foundation
 
 struct HomeView: View {
 
+
     let rowHeight: CGFloat = 40
-    let nameURL: URL = URL(string: "https://jsonplaceholder.typicode.com/todos")!
+    let nameURL: URL = URL(string: "https://jsonplaceholder.typicode.com/todos/")!
     @StateObject var homeViewModel: HomeViewModel
 
     var body: some View {
