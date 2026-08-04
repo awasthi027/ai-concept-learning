@@ -10,13 +10,16 @@ import Foundation
 
 struct HomeView: View {
 
-
     let rowHeight: CGFloat = 40
-    let nameURL: URL = URL(string: "https://jsonplaceholder.typicode.com/todos/")!
+
     @StateObject var homeViewModel: HomeViewModel
 
     var body: some View {
         VStack {
+            if let errorMessage = homeViewModel.errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+            }
             List(self.homeViewModel.list, id:\.id) { item in
                 NavigationLink(value: item) {
                     HStack {
@@ -38,20 +41,15 @@ struct HomeView: View {
             DetailsView(toDo: item)
         }
         .navigationTitle("Home")
-        .onAppear() {
-            Task {
-                do {
-                    try homeViewModel.makeRequestToGetNetworkData()
-                } catch {
-                    print(error)
-                }
-            }
+        .task {
+            await homeViewModel.loadData()
         }
     }
 }
 
+
 #Preview {
-   // HomeView(homeViewModel: HomeViewModel())
+    HomeView(homeViewModel: HomeViewModel(toDoServiceProtocol: DatalayerClass()))
 }
 
 

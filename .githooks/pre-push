@@ -70,39 +70,71 @@ if [ -z "$changed_files" ]; then
     exit 0
 fi
 
-echo "pre-push: reviewing Swift changes with the swift-code-reviewer agent (${REVIEW_CLI})..."
+file_count="$(printf '%s\n' "$changed_files" | grep -c . || true)"
+# Rough estimate: agent reads each file fully + greps the repo (~20s/file, min 30s).
+est_secs=$(( file_count * 20 ))
+[ "$est_secs" -lt 30 ] && est_secs=30
+
+echo "pre-push: reviewing $file_count Swift file(s) with the swift-code-reviewer agent (${REVIEW_CLI})..."
 echo "$changed_files" | sed 's/^/  • /'
+echo "pre-push: estimated review time ~${est_secs}s (varies with file size / model load)."
 
 file_list="$(printf '%s' "$changed_files" | paste -sd ',' -)"
 
 prompt="Use the swift-code-review skill to review these changed Swift files \
 against the repo coding standards, then emit the verdict token: ${file_list}"
 
-# Run headless, read-only. Reads/greps/git are all this review needs.
+# Progress spinner: prints elapsed time and % of the estimate while $1 (a PID) runs.
+show_progress() {
+    local pid="$1" est="$2"
+    local frames='|/-\' i=0 start now elapsed pct bar filled
+    start="$(date +%s)"
+    # Only animate on a TTY; keep logs clean when non-interactive.
+    while kill -0 "$pid" 2>/dev/null; do
+        now="$(date +%s)"; elapsed=$(( now - start ))
+        pct=$(( elapsed * 100 / est )); [ "$pct" -gt 99 ] && pct=99
+        filled=$(( pct / 5 )); bar=""
+        for ((i = 0; i < 20; i++)); do
+            if [ "$i" -lt "$filled" ]; then bar="${bar}#"; else bar="${bar}."; fi
+        done
+        printf '\r  pre-push: reviewing %s [%s] %3d%%  %3ds elapsed ' \
+            "${frames:i%4:1}" "$bar" "$pct" "$elapsed" >&2
+        sleep 1
+    done
+    printf '\r%*s\r' 70 '' >&2   # clear the progress line
+}
+
+# Run the CLI in the background, capture combined output, animate progress.
+tmp_out="$(mktemp -t prepush-review.XXXXXX)"
+trap 'rm -f "$tmp_out"' EXIT
+
 if [ "$REVIEW_CLI" = "claude" ]; then
-    output="$(claude -p "$prompt" \
+    ( claude -p "$prompt" \
         --agents swift-code-reviewer \
         --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git grep:*),Bash(grep:*)" \
-        --output-format text 2>&1)" || {
-            echo "pre-push: ❌ Claude review could not run:" >&2
-            echo "$output" >&2
-            echo "pre-push: blocking push (review inconclusive). Bypass: AI_REVIEW_FAILOPEN=1 git push  /  git push --no-verify" >&2
-            [ "${AI_REVIEW_FAILOPEN:-}" = "1" ] && exit 0
-            exit 1
-        }
+        --output-format text >"$tmp_out" 2>&1 ) &
 else
-    output="$(copilot -p "$prompt" \
+    ( copilot -p "$prompt" \
         --agent swift-code-reviewer \
         --allow-tool "view" --allow-tool "grep" --allow-tool "glob" \
         --allow-tool "shell(git diff)" --allow-tool "shell(git grep)" \
         --allow-tool "shell(grep)" \
-        --no-color 2>&1)" || {
-            echo "pre-push: ❌ Copilot review could not run:" >&2
-            echo "$output" >&2
-            echo "pre-push: blocking push (review inconclusive). Bypass: AI_REVIEW_FAILOPEN=1 git push  /  git push --no-verify" >&2
-            [ "${AI_REVIEW_FAILOPEN:-}" = "1" ] && exit 0
-            exit 1
-        }
+        --no-color >"$tmp_out" 2>&1 ) &
+fi
+review_pid=$!
+
+if [ -t 2 ]; then
+    show_progress "$review_pid" "$est_secs"
+fi
+wait "$review_pid" && review_rc=0 || review_rc=$?
+output="$(cat "$tmp_out")"
+
+if [ "$review_rc" -ne 0 ]; then
+    echo "pre-push: ❌ ${REVIEW_CLI} review could not run:" >&2
+    echo "$output" >&2
+    echo "pre-push: blocking push (review inconclusive). Bypass: AI_REVIEW_FAILOPEN=1 git push  /  git push --no-verify" >&2
+    [ "${AI_REVIEW_FAILOPEN:-}" = "1" ] && exit 0
+    exit 1
 fi
 
 echo "----------------------------------------------------------------------"

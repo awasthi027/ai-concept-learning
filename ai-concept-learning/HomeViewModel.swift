@@ -24,6 +24,7 @@ import Foundation
 class HomeViewModel: ObservableObject {
 
     @Published var list: [ToDo] = []
+    @Published var errorMessage: String?
     var toDoServiceProtocol: ToDoServiceProtocol
 
     init(toDoServiceProtocol: ToDoServiceProtocol) {
@@ -35,6 +36,15 @@ class HomeViewModel: ObservableObject {
             list = try toDoServiceProtocol.getToDo()
         } catch let error {
            throw error
+        }
+    }
+
+    @MainActor
+    func loadData() async {
+        do {
+            list = try toDoServiceProtocol.getToDo()
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 }
