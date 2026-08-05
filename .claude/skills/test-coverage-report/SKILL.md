@@ -5,8 +5,9 @@ description: Run only the newly written unit tests and UI tests on this iOS app 
 
 # New-Test Coverage Report
 
-Run **only the tests added or modified on this branch** and report app-target
-code coverage three ways: **unit only**, **UI only**, and **combined**.
+Run **only the tests added or modified on this branch** and report coverage of
+**only the production lines that branch added or modified** (old, unmodified
+code excluded) three ways: **unit only**, **UI only**, and **combined**.
 
 The rules are in
 [the new-test coverage standards](../../rules/test-coverage-standards.md). Read
@@ -17,7 +18,25 @@ and the *output format*.
 > point of invoking this skill, so it is the "explicit request" the repo
 > CLAUDE.md requires — but do not trigger it as a side effect of unrelated work.
 
+> **Permissions.** Prefer running interactively so Claude Code's normal
+> tool-approval prompts appear in the terminal — the user approves the `git
+> diff` discovery command(s) and the single Bash call that runs
+> `.claude/scripts/run-new-tests-coverage.sh ...`; that one approval covers
+> simulator access too, since `xcodebuild`/`xcrun simctl` run as subprocesses of
+> the already-approved script, not as separate tool calls. Don't pass
+> `--allowedTools` to try to pre-grant this — many orgs restrict permission
+> rules to managed settings, so it's silently ignored. In headless `-p` mode
+> there is no prompt at all, so anything not already allowed in managed
+> settings will simply fail.
+
 ## Procedure
+
+**Announce before you act, and narrate throughout.** The build + test run takes
+minutes, so never leave the terminal blank. Open with a one-line status such as
+"Evaluating the changed tests to find what's newly added, then I'll run just
+those and report coverage," and keep the user posted as you enter each phase
+(discovering → asking which simulator → building/running → reporting → cleanup).
+If there are no new tests, say so right away and stop.
 
 ### 1. Discover the new tests (from git, not memory)
 
@@ -123,18 +142,21 @@ New tests run
   Unit (N): <ids…>
   UI   (M): <ids…>
 
-Coverage of ai-concept-learning.app
-  Unit tests : <pct>%  (<covered>/<executable> lines)
-  UI tests   : <pct>%  (<covered>/<executable> lines)
-  Combined   : <pct>%  (<covered>/<executable> lines)
+Coverage of added/modified code in ai-concept-learning.app
+  Unit tests : <pct>%  (<covered>/<changed-executable> changed lines)
+  UI tests   : <pct>%  (<covered>/<changed-executable> changed lines)
+  Combined   : <pct>%  (<covered>/<changed-executable> changed lines)
 
-Lowest-covered app files (combined):
+Lowest-covered changed files (combined):
   <pct>%  <file>
   …
 ```
 
+- Numbers cover **only the lines this branch added or modified** — never the
+  whole target, never old/unmodified code.
 - Report the **actual** numbers from `summary.json` / the script output. Use
-  `N/A` for a suite with no new tests — never fabricate.
+  `N/A` for a suite with no new tests, or when the branch changed no production
+  lines — never fabricate.
 - Combined is measured from its own run; never present it as unit + UI added
   together.
 - If `--min-combined` was set and the run exited 3, state clearly that the

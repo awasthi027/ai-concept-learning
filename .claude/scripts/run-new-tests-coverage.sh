@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 #
 # run-new-tests-coverage.sh — run ONLY the given (newly written) unit and UI
-# tests, and report code coverage of the app target separately for the unit
-# suite, the UI suite, and the two combined.
+# tests, and report code coverage of the app target **restricted to the
+# production lines added or modified on this branch** (old, unmodified code is
+# never counted), separately for the unit suite, the UI suite, and the two
+# combined.
 #
 # The caller (the `test-coverage-runner` agent / `test-coverage-report` skill)
 # is responsible for discovering which tests are new from the git diff and
@@ -17,7 +19,12 @@
 #       --unit "<ids>" --ui "<ids>" \
 #       [--sim-name "iPhone 16"] [--os "18.5"] \
 #       [--dest "<full xcodebuild destination>"] \
-#       [--out build/coverage] [--min-combined 60] [--keep]
+#       [--out build/coverage] [--min-combined 60] [--base main] [--keep]
+#
+# Diff scope: coverage is scored ONLY on production lines added/modified versus
+# --base (default "main"), matched by APP_GLOB (default
+# "ai-concept-learning/**/*.swift"; test dirs are excluded). Old, unmodified
+# code is never counted.
 #
 # Simulator: choose the device with --sim-name and the iOS version with --os
 # (the caller should ask the user for these). --dest overrides both with a raw
@@ -32,14 +39,18 @@
 # under <out> (default build/coverage). On success they are deleted; pass
 # --keep to retain them. On failure they are kept so the run can be debugged.
 #
-# Env overrides: UNIT_SCHEME, UI_SCHEME, COMBINED_SCHEME, APP_TARGET,
-#                DESTINATION, SIM_NAME, OS_VERSION.
+# Env overrides: UNIT_SCHEME, UI_SCHEME, COMBINED_SCHEME, APP_TARGET, BASE_REF,
+#                APP_GLOB, DESTINATION, SIM_NAME, OS_VERSION.
 set -euo pipefail
 
 UNIT_SCHEME="${UNIT_SCHEME:-ai-concept-learningTests}"
 UI_SCHEME="${UI_SCHEME:-ai-concept-learningUITests}"
 COMBINED_SCHEME="${COMBINED_SCHEME:-ai-concept-learning}"
 APP_TARGET="${APP_TARGET:-ai-concept-learning.app}"
+# Coverage is scored ONLY on production lines added/modified versus this base
+# ref, matched by this pathspec (test dirs are intentionally excluded).
+BASE_REF="${BASE_REF:-main}"
+APP_GLOB="${APP_GLOB:-:(glob)ai-concept-learning/**/*.swift}"
 DESTINATION="${DESTINATION:-}"
 SIM_NAME="${SIM_NAME:-}"
 OS_VERSION="${OS_VERSION:-}"
@@ -50,7 +61,8 @@ MIN_COMBINED=""
 KEEP=0
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPORTER="$SCRIPT_DIR/coverage_report.py"
+REPORTER="$SCRIPT_DIR/diff_coverage.py"
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 usage() {
     grep -E '^#( |$)' "$0" | sed 's/^# \{0,1\}//'
@@ -63,6 +75,7 @@ while [ $# -gt 0 ]; do
         --dest) DESTINATION="$2"; shift 2 ;;
         --sim-name) SIM_NAME="$2"; shift 2 ;;
         --os) OS_VERSION="$2"; shift 2 ;;
+        --base) BASE_REF="$2"; shift 2 ;;
         --out) OUT_DIR="$2"; shift 2 ;;
         --min-combined) MIN_COMBINED="$2"; shift 2 ;;
         --keep) KEEP=1; shift ;;
@@ -187,14 +200,18 @@ run_suite() {
         | tee -a "$OUT_DIR/progress.log"
     local log="$OUT_DIR/$label.log"
     set +e
-    # All derived data goes under $OUT_DIR so cleanup removes everything.
+    # Each pass gets its OWN derived-data dir (still under $OUT_DIR, so cleanup
+    # removes everything). Sharing one DerivedData across sequential
+    # `xcodebuild test` runs corrupts the coverage-archive staging area — xccov
+    # then fails with "Metadata.plist couldn't be opened" on a later pass
+    # (typically the last/heaviest one, e.g. the combined multi-testable run).
     # shellcheck disable=SC2046
     xcodebuild test \
         -scheme "$scheme" \
         -destination "$dest" \
         -enableCodeCoverage YES \
         -resultBundlePath "$result" \
-        -derivedDataPath "$OUT_DIR/DerivedData" \
+        -derivedDataPath "$OUT_DIR/DerivedData-$label" \
         $(only_testing_flags "$ids") 2>&1 \
         | tee "$log" \
         | stream_progress "$label" "$n" "$PASS_INDEX" "$TOTAL_PASSES" \
@@ -214,6 +231,26 @@ run_suite() {
     echo "✓ Pass $PASS_INDEX/$TOTAL_PASSES ($label) complete —" \
          "job $pct% done ($COMPLETED/$GRAND_TOTAL test-runs)" \
         | tee -a "$OUT_DIR/progress.log"
+}
+
+# Extract app-target coverage JSON from a result bundle. xccov occasionally
+# fails with "Failed to load coverage archive ... Metadata.plist ... no such
+# file" if the underlying .xccovarchive staging data is missing/corrupt (seen
+# when passes share one DerivedData — fixed by giving each pass its own, see
+# run_suite). Surface that plainly instead of letting the raw NSError through.
+extract_coverage_json() {
+    local label="$1" bundle="$2" out_json="$3"
+    if ! xcrun xccov view --report --json "$bundle" > "$out_json" 2>"$OUT_DIR/$label-xccov.err"; then
+        echo "" >&2
+        echo "✗ Failed to read coverage from $bundle:" >&2
+        cat "$OUT_DIR/$label-xccov.err" >&2
+        echo "" >&2
+        echo "This is usually a corrupt/missing coverage-archive staging area" \
+             "for the $label pass, not a problem with the tests themselves." \
+             "Re-running the script (each pass now gets an isolated" \
+             "-derivedDataPath) usually resolves it." >&2
+        exit 1
+    fi
 }
 
 dest="$(pick_destination)"
@@ -260,27 +297,28 @@ combined_json=""
 if [ -n "$UNIT_IDS" ]; then
     run_suite "unit" "$UNIT_SCHEME" "$OUT_DIR/unit.xcresult" "$UNIT_IDS" "$unit_n"
     unit_json="$OUT_DIR/unit.json"
-    xcrun xccov view --report --json "$OUT_DIR/unit.xcresult" > "$unit_json"
+    extract_coverage_json "unit" "$OUT_DIR/unit.xcresult" "$unit_json"
 fi
 
 if [ -n "$UI_IDS" ]; then
     run_suite "ui" "$UI_SCHEME" "$OUT_DIR/ui.xcresult" "$UI_IDS" "$ui_n"
     ui_json="$OUT_DIR/ui.json"
-    xcrun xccov view --report --json "$OUT_DIR/ui.xcresult" > "$ui_json"
+    extract_coverage_json "ui" "$OUT_DIR/ui.xcresult" "$ui_json"
 fi
 
 run_suite "combined" "$COMBINED_SCHEME" "$OUT_DIR/combined.xcresult" \
     "$combined_ids" "$combined_n"
 combined_json="$OUT_DIR/combined.json"
-xcrun xccov view --report --json "$OUT_DIR/combined.xcresult" > "$combined_json"
+extract_coverage_json "combined" "$OUT_DIR/combined.xcresult" "$combined_json"
 
 echo ""
 echo "✓ All $TOTAL_PASSES pass(es) complete — computing coverage report…"
 
-report_args=(--app "$APP_TARGET" --combined "$combined_json"
+report_args=(--app "$APP_TARGET" --base "$BASE_REF" --repo-root "$REPO_ROOT"
+    --app-glob "$APP_GLOB" --combined-bundle "$OUT_DIR/combined.xcresult"
     --out "$OUT_DIR/summary.json")
-[ -n "$unit_json" ] && report_args+=(--unit "$unit_json")
-[ -n "$ui_json" ] && report_args+=(--ui "$ui_json")
+[ -n "$UNIT_IDS" ] && report_args+=(--unit-bundle "$OUT_DIR/unit.xcresult")
+[ -n "$UI_IDS" ] && report_args+=(--ui-bundle "$OUT_DIR/ui.xcresult")
 [ -n "$MIN_COMBINED" ] && report_args+=(--min-combined "$MIN_COMBINED")
 
 set +e
