@@ -33,3 +33,18 @@ run the same review any time with the `swift-code-review` skill.
 
 CI is defined under `.github/workflows/` (Fastlane-based). Do not run builds or
 simulators unless the user explicitly asks.
+
+## New-test coverage
+
+To run **only the newly written** unit and UI tests and report app-code coverage
+separately for the unit suite, the UI suite, and the two combined, use the
+**`test-coverage-runner`** agent or the **`test-coverage-report`** skill. The
+contract is in
+[.claude/rules/test-coverage-standards.md](.claude/rules/test-coverage-standards.md);
+the measurement is done by `.claude/scripts/run-new-tests-coverage.sh`. This
+builds the app and boots a simulator, so it runs only on explicit request
+(invoking the agent/skill is that request).
+
+This is **manual only**: it is **not** part of the `git push` hook or CI — the
+pre-push hook runs only the `swift-code-reviewer`. Run the coverage check by
+hand before pushing if you want it.
