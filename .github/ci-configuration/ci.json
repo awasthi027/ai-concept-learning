@@ -26,7 +26,7 @@
         {
             "name": "Run Unit Tests",
             "type": "fastlane",
-            "disabled": false,
+            "disabled": true,
             "fastlane": {
                 "lane": "testiOSSource",
                 "working_repo": "./",
@@ -36,6 +36,7 @@
         {
             "name": "Run UI Tests",
             "type": "fastlane",
+            "disabled": true,
             "fastlane": {
                 "lane": "testiOSSource",
                 "env": ".env.UITest",

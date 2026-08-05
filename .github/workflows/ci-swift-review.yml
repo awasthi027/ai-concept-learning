@@ -18,8 +18,9 @@ on:
     tags-ignore: ["**"]
 
 env:
+  COPILOT_GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+  GH_TOKEN: ${{ secrets.PAT_GITHUB }}
   GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
-  COPILOT_TOKEN: ${{ secrets.PAT_GITHUB }}
 
 permissions:
   contents: read

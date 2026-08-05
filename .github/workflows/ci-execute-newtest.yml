@@ -1,0 +1,146 @@
+name: CI - Execute New Tests
+
+# Runs the `test-coverage-runner` agent on GitHub CI. The agent discovers the
+# unit/UI tests added or modified on this branch, runs ONLY those on a
+# simulator, and reports coverage of ONLY the added/modified production lines
+# (old code excluded — see .claude/rules/test-coverage-standards.md §5a).
+#
+# Because CI is head-less, the simulator name/iOS version the agent would
+# normally ask the user for are supplied in the prompt instead.
+#
+# Auth: reuses this repo's existing PAT_GITHUB secret (same as the other
+# workflows) for the Copilot CLI — no new secret required.
+#
+# Report-only: this posts coverage to the run's Summary page and does not fail
+# the build on low coverage unless min_combined is provided to a manual run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sim_name:
+        description: "Simulator device name"
+        required: true
+        default: "iPhone 17"
+      os_version:
+        description: "iOS runtime version"
+        required: true
+        default: "26.5"
+      base_ref:
+        description: "Diff base ref (branch to compare against)"
+        required: false
+        default: "main"
+      min_combined:
+        description: "Optional min combined % (fails the run below this)"
+        required: false
+        default: ""
+  pull_request:
+    branches: ["**"]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  # Copilot CLI reads one of these; feed it this repo's existing PAT_GITHUB.
+  COPILOT_GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+  GH_TOKEN: ${{ secrets.PAT_GITHUB }}
+  GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  execute-new-tests:
+    name: test-coverage-runner
+    runs-on: macos-26
+    steps:
+      - name: Checkout (full history for diff)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Runner info
+        run: bash .github/scripts/runnerinfo.sh || true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install GitHub Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Resolve inputs
+        id: cfg
+        run: |
+          set -euo pipefail
+          SIM='${{ github.event.inputs.sim_name }}'; SIM="${SIM:-iPhone 17}"
+          OS='${{ github.event.inputs.os_version }}'; OS="${OS:-26.5}"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.base_ref }}"
+          else
+            BRANCH='${{ github.event.inputs.base_ref }}'; BRANCH="${BRANCH:-main}"
+          fi
+          git fetch --no-tags origin "$BRANCH":"refs/remotes/origin/$BRANCH" || true
+          echo "sim=$SIM" >> "$GITHUB_OUTPUT"
+          echo "os=$OS" >> "$GITHUB_OUTPUT"
+          echo "base=origin/$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "Simulator: $SIM (iOS $OS), diff base: origin/$BRANCH"
+
+      - name: Ensure simulator exists
+        run: bash .github/scripts/create-sim.sh || true
+
+      - name: Run test-coverage-runner agent
+        id: agent
+        run: |
+          set -euo pipefail
+          prompt="Run the test-coverage-runner workflow: discover the unit and \
+          UI tests added or modified versus ${{ steps.cfg.outputs.base }}, run \
+          ONLY those on the '${{ steps.cfg.outputs.sim }}' simulator with iOS \
+          ${{ steps.cfg.outputs.os }}, and report coverage of only the \
+          added/modified production lines. Do not ask for the simulator — use \
+          the one given. Invoke \
+          .claude/scripts/run-new-tests-coverage.sh with --base \
+          ${{ steps.cfg.outputs.base }} --keep so build/coverage/summary.json \
+          survives. If there are no new tests, say so."
+          copilot -p "$prompt" \
+            --agent test-coverage-runner \
+            --allow-all-tools \
+            --no-color 2>&1 | tee agent.txt
+
+      - name: Publish coverage to job summary
+        if: always()
+        run: |
+          set -euo pipefail
+          {
+            echo "## New-test coverage (test-coverage-runner)"
+            echo ""
+            echo "Simulator: \`${{ steps.cfg.outputs.sim }}\` · iOS "
+            echo "\`${{ steps.cfg.outputs.os }}\` · base "
+            echo "\`${{ steps.cfg.outputs.base }}\`"
+            echo ""
+            if [ -f build/coverage/summary.json ]; then
+              echo '<details><summary>summary.json</summary>'
+              echo ""
+              echo '```json'
+              cat build/coverage/summary.json
+              echo '```'
+              echo ""
+              echo '</details>'
+              echo ""
+            fi
+            echo "### Agent output"
+            echo '```'
+            tail -n 120 agent.txt 2>/dev/null || echo "(no output captured)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: new-test-coverage-${{ github.run_id }}
+          path: build/coverage/
+          retention-days: 1
+          if-no-files-found: ignore
