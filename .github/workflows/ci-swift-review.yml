@@ -1,0 +1,136 @@
+name: CI - Swift Review
+
+# Runs the same `swift-code-reviewer` agent the local pre-push hook runs, but on
+# GitHub CI. It installs the Copilot CLI on the runner, invokes the agent
+# head-lessly against the production Swift files changed on this PR/branch, and
+# fails the job if the agent emits COPILOT_REVIEW_VERDICT: FAIL.
+#
+# Auth: the Copilot CLI needs credentials in CI. This repo already exposes a
+# GitHub token as the PAT_GITHUB secret (see ci-condutor.yml / cd-condutor.yml),
+# so we reuse it — no new secret required.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: ["**"]
+    tags-ignore: ["**"]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+  COPILOT_TOKEN: ${{ secrets.PAT_GITHUB }}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swift-review:
+    name: swift-code-reviewer
+    runs-on: macos-26
+    steps:
+      - name: Checkout (full history for diff)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install GitHub Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Resolve diff base
+        id: base
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH="${{ github.base_ref }}"
+          else
+            BRANCH="main"
+          fi
+          git fetch --no-tags origin "$BRANCH":"refs/remotes/origin/$BRANCH" || true
+          echo "ref=origin/$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "Diff base: origin/$BRANCH"
+
+      - name: Collect changed production Swift files
+        id: changes
+        run: |
+          set -euo pipefail
+          # Production Swift only — exclude *Tests/ and *UITests/ (matches the
+          # pre-push hook's scope).
+          files="$(git diff --name-only "${{ steps.base.outputs.ref }}"... -- '*.swift' \
+            | grep -vE '(^|/)[^/]*(Tests|UITests)/' \
+            | while IFS= read -r f; do [ -f "$f" ] && echo "$f"; done \
+            | paste -sd ',' - || true)"
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          if [ -z "$files" ]; then
+            echo "No production Swift changes to review."
+          else
+            echo "Reviewing: $files"
+          fi
+
+      - name: Run swift-code-reviewer agent
+        id: review
+        if: steps.changes.outputs.files != ''
+        run: |
+          set -euo pipefail
+          prompt="Use the swift-code-review skill to review these changed Swift \
+          files against the repo coding standards, then emit the verdict token: \
+          ${{ steps.changes.outputs.files }}"
+          copilot -p "$prompt" \
+            --agent swift-code-reviewer \
+            --allow-tool "view" --allow-tool "grep" --allow-tool "glob" \
+            --allow-tool "shell(git diff)" --allow-tool "shell(git grep)" \
+            --allow-tool "shell(grep)" \
+            --no-color 2>&1 | tee review.txt
+
+      - name: Publish review to job summary
+        if: always() && steps.changes.outputs.files != ''
+        run: |
+          set -euo pipefail
+          {
+            echo "## Swift code review"
+            echo ""
+            echo "**Files reviewed:** ${{ steps.changes.outputs.files }}"
+            echo ""
+            echo '```'
+            cat review.txt 2>/dev/null || echo "(no output captured)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: No changes summary
+        if: steps.changes.outputs.files == ''
+        run: |
+          {
+            echo "## Swift code review"
+            echo ""
+            echo "No production Swift files changed on this branch — nothing to review."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Enforce verdict
+        if: steps.changes.outputs.files != ''
+        run: |
+          set -euo pipefail
+          verdict="$(grep -Eo 'COPILOT_REVIEW_VERDICT: (PASS|FAIL)' review.txt | tail -1 || true)"
+          echo "Verdict: ${verdict:-<none>}"
+          case "$verdict" in
+            *PASS)
+              echo "✅ Swift review passed."
+              ;;
+            *FAIL)
+              echo "::error::Swift review found blocking violations."
+              exit 1
+              ;;
+            *)
+              echo "::error::No clear review verdict was emitted — failing to be safe."
+              exit 1
+              ;;
+          esac
