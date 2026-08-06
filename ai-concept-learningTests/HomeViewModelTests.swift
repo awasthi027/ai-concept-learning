@@ -12,6 +12,23 @@ import Foundation
 
 struct HomeViewModelTests {
 
+    @Test("Test to Get JSON and count the values")
+    @MainActor
+    func validateCounts() async throws {
+        let viewModel = HomeViewModel(toDoService: TestDatalayer())
+        await withCheckedContinuation { continuation in
+            do {
+                try viewModel.loadToDoSync()
+                continuation.resume()
+            } catch {
+                print(error)
+                continuation.resume()
+            }
+        }
+        #expect(viewModel.list.count == 5)
+
+    }
+
     @Test("Test to Get JSON and validate values")
     @MainActor
     func validateValues() async throws {
@@ -25,8 +42,14 @@ struct HomeViewModelTests {
                 continuation.resume()
             }
         }
-        #expect(viewModel.list.count == 5)
 
+        guard let firstItem = viewModel.list.first else {
+            #expect(viewModel.list.count > 0)
+            return
+        }
+        #expect(firstItem.id == 1)
+        #expect(firstItem.title == "Scaffold anchor points")
+        #expect(firstItem.status == .passed)
     }
 }
 
