@@ -61,14 +61,17 @@ struct ToDoRowView: View {
     let rowHeight: CGFloat
 
     var body: some View {
-        HStack {
-            Text("\(toDo.id)")
-            Divider()
-            Text(toDo.title)
-            Divider()
-            Text(toDo.status.rawValue)
+        VStack {
+            Text("Item Info")
+            HStack {
+                Text("\(toDo.id)")
+                Divider()
+                Text(toDo.title)
+                Divider()
+                Text(toDo.status.rawValue)
+            }
+            .frame(height: rowHeight)
         }
-        .frame(height: rowHeight)
     }
 }
 
