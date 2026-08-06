@@ -6,3 +6,7 @@ Creating a project to learn ai concepts like rules, instructions, skills and cus
 firt you have install gitbuh copilot CLI in your machine
 
 gh copilot -p "@run-unit-tests" --allow-all-tools
+
+# Push changes without agent review 
+
+git push --no-verify
