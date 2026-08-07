@@ -68,6 +68,7 @@ struct ToDoRowView: View {
             Divider()
             Text(toDo.status.rawValue)
         }
+        .accessibilityIdentifier("row_\(toDo.id)")
         .frame(height: rowHeight)
     }
 }

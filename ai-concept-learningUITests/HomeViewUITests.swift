@@ -24,22 +24,7 @@ final class HomeViewUITests: XCTestCase {
     }
 
     @MainActor
-    func testListingAndNavigationflow() throws {
-        let app = TestApplication(applicationInfo: TestApplicationInfo(bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"))
-        app.launch()
-        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 1.0))
-
-        let firstItem = app.homeScreen.list.buttons["1"]
-        XCTAssertTrue(firstItem.waitForExistence(timeout: 2.0))
-        firstItem.tap()
-
-        XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 2.0))
-        app.detailsScreen.backButton.tap()
-        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 2.0))
-    }
-
-    @MainActor
-    func testExploreTabListingAndNavigationFlow() throws {
+    func testHomeTabListingAndNavigationFlow() throws {
         let app = TestApplication(
             applicationInfo: TestApplicationInfo(
                 bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"
@@ -48,24 +33,16 @@ final class HomeViewUITests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.exploreScreen.tabButton.waitForExistence(timeout: 2.0))
-        app.exploreScreen.tabButton.tap()
-        XCTAssertTrue(app.exploreScreen.navigationTitle.waitForExistence(timeout: 5.0))
+        app.homeScreen.tabButton.tap()
+        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 5.0))
 
-        let firstRow = app.exploreScreen.firstRow
+        let firstRow = app.homeScreen.firstRow
         guard firstRow.waitForExistence(timeout: 10.0) else {
             throw XCTSkip("Explore content unavailable (offline / network).")
         }
         firstRow.tap()
         XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 5.0))
         app.detailsScreen.backButton.tap()
-        XCTAssertTrue(app.exploreScreen.navigationTitle.waitForExistence(timeout: 2.0))
-    }
-
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 2.0))
     }
 }

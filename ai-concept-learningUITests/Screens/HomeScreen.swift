@@ -14,11 +14,20 @@ class HomeScreen {
     init (application: XCUIApplication) {
         self.application = application
     }
+
+    var tabButton: XCUIElement {
+        application.tabBars.buttons["Home"]
+    }
+    
     var navigationTitle: XCUIElement {
         application.navigationBars["Home"]
     }
 
     var list: XCUIElement {
         application.descendants(matching: .any).matching(identifier: "homeViewList").firstMatch
+    }
+    
+    var firstRow: XCUIElement {
+        list.staticTexts["row_1"].firstMatch
     }
 }
