@@ -30,4 +30,8 @@ final class TestApplication: XCUIApplication {
     var detailsScreen: DetailsScreen {
         DetailsScreen(application: self)
     }
+
+    var exploreScreen: ExploreScreen {
+        ExploreScreen(application: self)
+    }
 }

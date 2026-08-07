@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+    <dict>
+        <key>id</key>
+        <integer>1</integer>
+        <key>title</key>
+        <string>Scaffold anchor points</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>2</integer>
+        <key>title</key>
+        <string>Harness inspection - Zone B</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>3</integer>
+        <key>title</key>
+        <string>Electrical panel lockout</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>4</integer>
+        <key>title</key>
+        <string>Excavation shoring check</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>5</integer>
+        <key>title</key>
+        <string>Crane daily walkaround</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>6</integer>
+        <key>title</key>
+        <string>Fire extinguisher audit</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>7</integer>
+        <key>title</key>
+        <string>Ladder condition review</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>8</integer>
+        <key>title</key>
+        <string>PPE stock count</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>9</integer>
+        <key>title</key>
+        <string>First-aid kit restock</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>10</integer>
+        <key>title</key>
+        <string>Guardrail integrity check</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>11</integer>
+        <key>title</key>
+        <string>Forklift brake test</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>12</integer>
+        <key>title</key>
+        <string>Emergency exit signage</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>13</integer>
+        <key>title</key>
+        <string>Confined space permit</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>14</integer>
+        <key>title</key>
+        <string>Hot work permit review</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>15</integer>
+        <key>title</key>
+        <string>Chemical storage audit</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>16</integer>
+        <key>title</key>
+        <string>Noise level survey</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>17</integer>
+        <key>title</key>
+        <string>Dust exposure sampling</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>18</integer>
+        <key>title</key>
+        <string>Fall arrest system test</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>19</integer>
+        <key>title</key>
+        <string>Welding fume extraction</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>20</integer>
+        <key>title</key>
+        <string>Gas cylinder securing</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>21</integer>
+        <key>title</key>
+        <string>Trip hazard walkthrough</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>22</integer>
+        <key>title</key>
+        <string>Lighting adequacy check</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>23</integer>
+        <key>title</key>
+        <string>Spill kit inspection</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>24</integer>
+        <key>title</key>
+        <string>Machine guarding review</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>25</integer>
+        <key>title</key>
+        <string>Lockout tagout audit</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>26</integer>
+        <key>title</key>
+        <string>Hearing protection check</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>27</integer>
+        <key>title</key>
+        <string>Respirator fit test</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>28</integer>
+        <key>title</key>
+        <string>Vehicle backup alarm test</string>
+        <key>status</key>
+        <string>passed</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>29</integer>
+        <key>title</key>
+        <string>Signage compliance review</string>
+        <key>status</key>
+        <string>pending</string>
+    </dict>
+    <dict>
+        <key>id</key>
+        <integer>30</integer>
+        <key>title</key>
+        <string>Toolbox talk sign-off</string>
+        <key>status</key>
+        <string>failed</string>
+    </dict>
+</array>
+</plist>

@@ -1,14 +1,13 @@
 //
-//  HomeViewUITests.swift
-//  TestProject
+//  ExploreViewUITests.swift
+//  ai-concept-learning
 //
-//  Created by Ashish Awasthi on 30/07/26.
+//  Created by Ashish Awasthi on 07/08/26.
 //
-
 
 import XCTest
 
-final class HomeViewUITests: XCTestCase {
+final class ExploreViewUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,21 +20,6 @@ final class HomeViewUITests: XCTestCase {
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    @MainActor
-    func testListingAndNavigationflow() throws {
-        let app = TestApplication(applicationInfo: TestApplicationInfo(bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"))
-        app.launch()
-        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 1.0))
-
-        let firstItem = app.homeScreen.list.buttons["1"]
-        XCTAssertTrue(firstItem.waitForExistence(timeout: 2.0))
-        firstItem.tap()
-
-        XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 2.0))
-        app.detailsScreen.backButton.tap()
-        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 2.0))
     }
 
     @MainActor
@@ -61,11 +45,4 @@ final class HomeViewUITests: XCTestCase {
         XCTAssertTrue(app.exploreScreen.navigationTitle.waitForExistence(timeout: 2.0))
     }
 
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
-    }
 }
