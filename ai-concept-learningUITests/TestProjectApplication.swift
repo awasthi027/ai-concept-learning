@@ -9,7 +9,7 @@ import XCTest
 struct TestApplicationInfo {
     let bundleIdentifier: String
 
-    init(bundleIdentifier: String) {
+    init(bundleIdentifier: String = "ashi.com.newLearning.ai-concept-learning") {
         self.bundleIdentifier = bundleIdentifier
     }
 }
@@ -20,7 +20,7 @@ final class TestApplication: XCUIApplication {
 
     init(applicationInfo: TestApplicationInfo) {
         self.applicationInfo = applicationInfo
-        super.init(bundleIdentifier: applicationInfo.bundleIdentifier)
+        super.init()
     }
 
     var homeScreen: HomeScreen {

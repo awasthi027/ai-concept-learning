@@ -25,20 +25,16 @@ final class HomeViewUITests: XCTestCase {
 
     @MainActor
     func testHomeTabListingAndNavigationFlow() throws {
-        let app = TestApplication(
-            applicationInfo: TestApplicationInfo(
-                bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"
-            )
-        )
+        let app = TestApplication(applicationInfo: TestApplicationInfo())
         app.launch()
 
-        XCTAssertTrue(app.exploreScreen.tabButton.waitForExistence(timeout: 2.0))
+        XCTAssertTrue(app.homeScreen.tabButton.waitForExistence(timeout: 2.0))
         app.homeScreen.tabButton.tap()
         XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 5.0))
 
         let firstRow = app.homeScreen.firstRow
         guard firstRow.waitForExistence(timeout: 10.0) else {
-            throw XCTSkip("Explore content unavailable (offline / network).")
+            throw XCTSkip("Home content unavailable (offline / network).")
         }
         firstRow.tap()
         XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 5.0))

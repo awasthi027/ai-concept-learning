@@ -23,10 +23,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		955EF23F3029B44B00BA1489 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9541EA4C301B48DF00B9896E /* ai-concept-learning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ai-concept-learning.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9541EA59301B48E100B9896E /* ai-concept-learningTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ai-concept-learningTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9541EA63301B48E100B9896E /* ai-concept-learningUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ai-concept-learningUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		955EF22A3029B44800BA1489 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		955EF22C3029B44800BA1489 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,6 +93,7 @@
 				9541EA4E301B48DF00B9896E /* ai-concept-learning */,
 				9541EA5C301B48E100B9896E /* ai-concept-learningTests */,
 				9541EA66301B48E100B9896E /* ai-concept-learningUITests */,
+				955EF2293029B44800BA1489 /* Frameworks */,
 				9541EA4D301B48DF00B9896E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,6 +108,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		955EF2293029B44800BA1489 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				955EF22A3029B44800BA1489 /* WidgetKit.framework */,
+				955EF22C3029B44800BA1489 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -102,6 +127,7 @@
 				9541EA48301B48DF00B9896E /* Sources */,
 				9541EA49301B48DF00B9896E /* Frameworks */,
 				9541EA4A301B48DF00B9896E /* Resources */,
+				955EF23F3029B44B00BA1489 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);

@@ -27,7 +27,7 @@ struct ai_concept_learningApp: App {
                 .accessibilityIdentifier("homeTab")
 
                 NavigationStack(path: $navigator.explorePath) {
-                    ExploreView(exploreViewModel: ExploreViewModel())
+                    ExploreView(exploreViewModel: Self.makeExploreViewModel())
                 }
                 .tabItem {
                     Label("Explore", systemImage: "globe")
@@ -37,5 +37,15 @@ struct ai_concept_learningApp: App {
             }
             .accessibilityIdentifier("appTabView")
         }
+    }
+
+    private static func makeExploreViewModel() -> ExploreViewModel {
+        #if DEBUG
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains(StubRemoteContentService.launchArgument) {
+            return ExploreViewModel(remoteService: StubRemoteContentService())
+        }
+        #endif
+        return ExploreViewModel()
     }
 }

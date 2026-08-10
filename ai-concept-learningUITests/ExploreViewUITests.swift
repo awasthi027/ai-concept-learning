@@ -24,21 +24,15 @@ final class ExploreViewUITests: XCTestCase {
 
     @MainActor
     func testExploreTabListingAndNavigationFlow() throws {
-        let app = TestApplication(
-            applicationInfo: TestApplicationInfo(
-                bundleIdentifier: "ashi.com.newLearning.ai-concept-learning"
-            )
-        )
+        let app = TestApplication(applicationInfo: TestApplicationInfo())
+        app.launchArguments.append("-uiTestStubExplore")
         app.launch()
-
         XCTAssertTrue(app.exploreScreen.tabButton.waitForExistence(timeout: 2.0))
         app.exploreScreen.tabButton.tap()
         XCTAssertTrue(app.exploreScreen.navigationTitle.waitForExistence(timeout: 5.0))
 
         let firstRow = app.exploreScreen.firstRow
-        guard firstRow.waitForExistence(timeout: 10.0) else {
-            throw XCTSkip("Explore content unavailable (offline / network).")
-        }
+        XCTAssertTrue(firstRow.waitForExistence(timeout: 10.0))
         firstRow.tap()
         XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 5.0))
         app.detailsScreen.backButton.tap()
