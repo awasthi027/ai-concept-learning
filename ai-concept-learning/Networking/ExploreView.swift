@@ -20,10 +20,10 @@ struct ExploreView: View {
 
     var body: some View {
         content
-            .navigationTitle("Explore")
             .navigationDestination(for: RemoteContent.self) { item in
                 RemoteContentDetailView(item: item)
             }
+            .navigationTitle("Explore")
             .task {
                 await exploreViewModel.loadData()
             }

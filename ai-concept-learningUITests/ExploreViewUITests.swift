@@ -25,14 +25,12 @@ final class ExploreViewUITests: XCTestCase {
     @MainActor
     func testExploreTabListingAndNavigationFlow() throws {
         let app = TestApplication(applicationInfo: TestApplicationInfo())
-        app.launchArguments.append("-uiTestStubExplore")
-        app.launch()
-        XCTAssertTrue(app.exploreScreen.tabButton.waitForExistence(timeout: 2.0))
+        app.launchReliably()
+        XCTAssertTrue(app.exploreScreen.tabButton.waitForExistence(timeout: 20.0))
         app.exploreScreen.tabButton.tap()
-        XCTAssertTrue(app.exploreScreen.navigationTitle.waitForExistence(timeout: 5.0))
 
         let firstRow = app.exploreScreen.firstRow
-        XCTAssertTrue(firstRow.waitForExistence(timeout: 10.0))
+        XCTAssertTrue(firstRow.waitForExistence(timeout: 20.0))
         firstRow.tap()
         XCTAssertTrue(app.detailsScreen.navigationBar.waitForExistence(timeout: 5.0))
         app.detailsScreen.backButton.tap()

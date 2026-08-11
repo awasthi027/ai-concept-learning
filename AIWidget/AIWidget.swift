@@ -2,59 +2,91 @@
 //  AIWidget.swift
 //  AIWidget
 //
-//  Created by Ashish Awasthi on 11/08/26.
+//  Widget that shows a random product from the Explore tab.
 //
 
 import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+
+    private let service: WidgetContentServiceProtocol = WidgetContentService()
+
+    func placeholder(in context: Context) -> ProductEntry {
+        ProductEntry(date: Date(), product: nil, imageData: nil)
     }
 
     func snapshot(
         for configuration: ConfigurationAppIntent, in context: Context
-    ) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+    ) async -> ProductEntry {
+        await makeEntry(date: Date())
     }
 
     func timeline(
         for configuration: ConfigurationAppIntent, in context: Context
-    ) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
+    ) async -> Timeline<ProductEntry> {
+        let entry = await makeEntry(date: Date())
+        let refresh = Calendar.current.date(
+            byAdding: .minute, value: 30, to: entry.date
+        ) ?? entry.date
+        return Timeline(entries: [entry], policy: .after(refresh))
+    }
 
-        // Five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            guard let entryDate = Calendar.current.date(
-                byAdding: .hour, value: hourOffset, to: currentDate
-            ) else {
-                continue
-            }
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
+    private func makeEntry(date: Date) async -> ProductEntry {
+        guard let product = try? await service.fetchProducts().randomElement() else {
+            return ProductEntry(date: date, product: nil, imageData: nil)
         }
-
-        return Timeline(entries: entries, policy: .atEnd)
+        let imageData = await service.imageData(for: product)
+        return ProductEntry(date: date, product: product, imageData: imageData)
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct ProductEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let product: ExploreProduct?
+    let imageData: Data?
 }
 
-struct AIWidgetEntryView : View {
+struct AIWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+        if let product = entry.product {
+            productView(product)
+        } else {
+            Text("No content available")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
 
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+    private func productView(_ product: ExploreProduct) -> some View {
+        HStack(spacing: 12) {
+            thumbnail
+            VStack(alignment: .leading, spacing: 4) {
+                Text(product.title)
+                    .font(.headline)
+                    .lineLimit(2)
+                Text(product.subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(3)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var thumbnail: some View {
+        if let data = entry.imageData, let uiImage = UIImage(data: data) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 56, height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.secondary.opacity(0.2))
+                .frame(width: 56, height: 56)
         }
     }
 }
@@ -71,26 +103,20 @@ struct AIWidget: Widget {
             AIWidgetEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
+        .configurationDisplayName("Explore Pick")
+        .description("Shows a random product from the Explore tab.")
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
-
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     AIWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
+    ProductEntry(
+        date: .now,
+        product: ExploreProduct(
+            id: 1, title: "Sample", subtitle: "A sample product", imageURL: nil
+        ),
+        imageData: nil
+    )
 }

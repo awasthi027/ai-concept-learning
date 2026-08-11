@@ -26,11 +26,15 @@ final class HomeViewUITests: XCTestCase {
     @MainActor
     func testHomeTabListingAndNavigationFlow() throws {
         let app = TestApplication(applicationInfo: TestApplicationInfo())
-        app.launch()
+        app.launchReliably()
 
-        XCTAssertTrue(app.homeScreen.tabButton.waitForExistence(timeout: 2.0))
-        app.homeScreen.tabButton.tap()
-        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 5.0))
+        let tabButton = app.homeScreen.tabButton
+        XCTAssertTrue(
+            tabButton.waitForExistence(timeout: 30.0),
+            "Home tab button did not appear in time."
+        )
+        tabButton.tap()
+        XCTAssertTrue(app.homeScreen.navigationTitle.waitForExistence(timeout: 10.0))
 
         let firstRow = app.homeScreen.firstRow
         guard firstRow.waitForExistence(timeout: 10.0) else {

@@ -41,8 +41,7 @@ struct ai_concept_learningApp: App {
 
     private static func makeExploreViewModel() -> ExploreViewModel {
         #if DEBUG
-        let arguments = ProcessInfo.processInfo.arguments
-        if arguments.contains(StubRemoteContentService.launchArgument) {
+        if UITestSupport.isActive {
             return ExploreViewModel(remoteService: StubRemoteContentService())
         }
         #endif

@@ -11,8 +11,6 @@ import Foundation
 
 final class StubRemoteContentService: RemoteContentServiceProtocol {
 
-    static let launchArgument = "-uiTestStubExplore"
-
     func fetchContent() async throws -> [RemoteContent] {
         [
             RemoteContent(
