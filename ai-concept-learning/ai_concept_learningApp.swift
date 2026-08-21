@@ -34,6 +34,17 @@ struct ai_concept_learningApp: App {
                 }
                 .tag(AppTab.explore)
                 .accessibilityIdentifier("exploreTab")
+
+                NavigationStack {
+                    BrowserView(
+                        browserViewModel: BrowserViewModel(opener: SystemURLOpener())
+                    )
+                }
+                .tabItem {
+                    Label("Browser", systemImage: "safari")
+                }
+                .tag(AppTab.browser)
+                .accessibilityIdentifier("browserTab")
             }
             .accessibilityIdentifier("appTabView")
         }
