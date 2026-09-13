@@ -20,8 +20,10 @@ final class BrowserViewModel: ObservableObject {
 
     @Published var browsers: [Browser] = []
     @Published var availableBrowsers: [Browser] = []
-    @Published var targetURLString: String = "https://www.google.com/"
+    @Published var targetURLString: String = "https://www.omnissa.com/"
     @Published var errorMessage: String?
+    @Published var pendingBrowser: Browser?
+    @Published var textDestination: BrowserTextDestination?
 
     private let service: BrowserServiceProtocol
     private let opener: URLOpening
@@ -56,6 +58,29 @@ final class BrowserViewModel: ObservableObject {
 
     func displayURL(for browser: Browser) -> String {
         browser.composedURLString(for: targetURLString)
+    }
+
+    func presentOptions(for browser: Browser) {
+        pendingBrowser = browser
+    }
+
+    func presentTextView(for browser: Browser) {
+        guard let url = composedURL(for: browser) else {
+            errorMessage = "Enter a valid URL to open."
+            return
+        }
+        textDestination = BrowserTextDestination(
+            id: browser.id,
+            browser: browser,
+            urlString: displayURL(for: browser),
+            url: url
+        )
+    }
+
+    func makeTextViewModel(
+        for destination: BrowserTextDestination
+    ) -> BrowserTextViewModel {
+        BrowserTextViewModel(destination: destination, opener: opener)
     }
 
     func open(_ browser: Browser) async {

@@ -64,13 +64,13 @@
 <key>name</key>
 <string>Microsoft Edge</string>
 <key>scheme</key>
-<string>microsoft-edge</string>
+<string>microsoft-edge-https</string>
 <key>iconSystemName</key>
 <string>wind</string>
 <key>colorHex</key>
 <string>#0F7EC1</string>
 <key>urlTemplate</key>
-<string>microsoft-edge://open-url?url=https://www.google.com/</string>
+<string>microsoft-edge-https://www.google.com/</string>
 </dict>
 <dict>
 <key>id</key>

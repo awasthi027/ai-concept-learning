@@ -20,6 +20,13 @@ struct BrowserView: View {
         )
     }
 
+    private var isShowingOptions: Binding<Bool> {
+        Binding(
+            get: { browserViewModel.pendingBrowser != nil },
+            set: { if !$0 { browserViewModel.pendingBrowser = nil } }
+        )
+    }
+
     var body: some View {
         List {
             availableSection
@@ -32,11 +39,36 @@ struct BrowserView: View {
         .onAppear {
             browserViewModel.loadBrowsers()
         }
+        .navigationDestination(item: $browserViewModel.textDestination) { destination in
+            BrowserTextView(
+                textViewModel: browserViewModel.makeTextViewModel(for: destination)
+            )
+        }
+        .alert(
+            "Open with",
+            isPresented: isShowingOptions,
+            presenting: browserViewModel.pendingBrowser
+        ) { browser in
+            optionButtons(for: browser)
+        }
         .alert("Unable to open browser", isPresented: isShowingError) {
             Button("OK", role: .cancel) { }
         } message: {
             Text(browserViewModel.errorMessage ?? "")
         }
+    }
+
+    @ViewBuilder
+    private func optionButtons(for browser: Browser) -> some View {
+        Button("Open in \(browser.name)") {
+            Task {
+                await browserViewModel.open(browser)
+            }
+        }
+        Button("Open in Text View") {
+            browserViewModel.presentTextView(for: browser)
+        }
+        Button("Cancel", role: .cancel) { }
     }
 
     @ViewBuilder
@@ -83,9 +115,7 @@ struct BrowserView: View {
                     browser: browser,
                     urlString: browserViewModel.displayURL(for: browser)
                 ) {
-                    Task {
-                        await browserViewModel.open(browser)
-                    }
+                    browserViewModel.presentOptions(for: browser)
                 }
             }
         }
