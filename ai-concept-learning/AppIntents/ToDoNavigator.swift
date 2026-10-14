@@ -11,7 +11,6 @@ import SwiftUI
 enum AppTab: Hashable {
     case home
     case explore
-    case browser
 }
 
 final class ToDoNavigator: ObservableObject {

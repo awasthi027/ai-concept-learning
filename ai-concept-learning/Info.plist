@@ -3,13 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>firefox</string>
-		<string>firefox-focus</string>
-		<string>googlechrome-x-callback</string>
-		<string>microsoft-edge-https</string>
-		<string>brave</string>
-		<string>ddgQuickLink</string>
-	</array>
+	<array/>
 </dict>
 </plist>
